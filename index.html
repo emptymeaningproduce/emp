@@ -3,78 +3,158 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Home</title>
+  <title>emp</title>
   <style>
-    body{
-      margin:0;
-      padding:40px 24px;
+    :root{
+      --pad: 24px;
+      --max: 900px;
+      --linkSize: 14px;
+      --headingSize: 14px;
+    }
+
+    html, body{
+      height: 100%;
+      margin: 0;
+      background: #fff;
+      color: #000;
       font-family: Arial, Helvetica, sans-serif;
-      background:#fff;
-      color:#000;
+    }
+
+    /* Scroll container (loops up/down) */
+    #loop{
+      height: 100vh;
+      overflow-y: auto;
+      overscroll-behavior: none;
+      -webkit-overflow-scrolling: touch;
     }
 
     .wrap{
-      max-width: 900px;
+      max-width: var(--max);
       margin: 0 auto;
+      padding: 40px var(--pad);
     }
 
-    /* Logo: centered + large */
+    /* Centered big logo */
     .logo{
       width: 640px;
       max-width: 92vw;
       height: auto;
       display: block;
-      margin: 40px auto 28px;
+      margin: 20px auto 28px;
     }
 
-    /* Keep links left-aligned */
+    /* Keep links left aligned under centered logo */
     .links{
       text-align: left;
     }
 
     h3{
-      font-size: 14px;
+      font-size: var(--headingSize);
       font-weight: 700;
       margin: 22px 0 8px;
     }
 
     a{
-      display:block;
-      color:#00f;
-      text-decoration: underline;
+      display: block;
+      font-size: var(--linkSize);
       margin: 6px 0;
-      font-size: 14px;
+      color: #00f;
+      text-decoration: underline;
     }
 
     .spacer{ height: 10px; }
+
+    a:focus{
+      outline: 2px dotted #000;
+      outline-offset: 2px;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <img class="logo" src="logo.png" alt="Logo" />
+  <div id="loop">
+    <div id="stage"></div>
 
-    <div class="links">
-      <h3>MERCH</h3>
-      <a href="https://example.com">MERCH</a>
+    <template id="tpl">
+      <div class="wrap">
+        <img class="logo" src="logo.png" alt="Logo" />
 
-      <div class="spacer"></div>
+        <div class="links">
+          <h3>MERCH</h3>
+          <a href="https://example.com">MERCH</a>
 
-      <h3>NEW</h3>
-      <a href="https://example.com">Track 1</a>
-      <a href="https://example.com">Track 2</a>
+          <div class="spacer"></div>
 
-      <h3>MIXTAPES</h3>
-      <a href="https://example.com">Mixtape 1</a>
-      <a href="https://example.com">Mixtape 2</a>
+          <h3>NEW</h3>
+          <a href="https://example.com">Track 1</a>
+          <a href="https://example.com">Track 2</a>
 
-      <h3>OTHER PLATFORMS</h3>
-      <a href="https://youtube.com">YouTube</a>
-      <a href="https://instagram.com">Instagram</a>
-      <a href="https://soundcloud.com">SoundCloud</a>
+          <h3>MIXTAPES</h3>
+          <a href="https://example.com">Mixtape 1</a>
+          <a href="https://example.com">Mixtape 2</a>
 
-      <h3>CONTACT</h3>
-      <a href="mailto:emptymeaningproduce@gmail.com">emptymeaningproduce@gmail.com</a>
-    </div>
+          <h3>OTHER PLATFORMS</h3>
+          <a href="https://youtube.com">YouTube</a>
+          <a href="https://instagram.com">Instagram</a>
+          <a href="https://soundcloud.com">SoundCloud</a>
+
+          <h3>CONTACT</h3>
+          <a href="mailto:emptymeaningproduce@gmail.com">emptymeaningproduce@gmail.com</a>
+        </div>
+      </div>
+    </template>
   </div>
+
+  <script>
+    (function(){
+      const loop = document.getElementById("loop");
+      const stage = document.getElementById("stage");
+      const tpl = document.getElementById("tpl");
+
+      const copies = [];
+      for(let i=0;i<3;i++){
+        const node = tpl.content.cloneNode(true);
+        const wrapper = document.createElement("div");
+        wrapper.className = "copy";
+        wrapper.appendChild(node);
+        stage.appendChild(wrapper);
+        copies.push(wrapper);
+      }
+
+      function getCopyHeight(){
+        return copies[0].getBoundingClientRect().height;
+      }
+
+      function centerScroll(){
+        const h = getCopyHeight();
+        loop.scrollTop = h;
+      }
+
+      function onScroll(){
+        const h = getCopyHeight();
+        const y = loop.scrollTop;
+        const threshold = 200;
+
+        if(y < threshold){
+          loop.scrollTop = y + h;
+          return;
+        }
+
+        const maxY = loop.scrollHeight - loop.clientHeight;
+        if(maxY - y < threshold){
+          loop.scrollTop = y - h;
+          return;
+        }
+      }
+
+      window.addEventListener("load", () => {
+        centerScroll();
+        loop.addEventListener("scroll", onScroll, { passive: true });
+      });
+
+      window.addEventListener("resize", () => {
+        centerScroll();
+      });
+    })();
+  </script>
 </body>
 </html>
