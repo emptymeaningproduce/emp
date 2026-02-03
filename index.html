@@ -12,21 +12,32 @@
       background:#fff;
       color:#000;
     }
+
     .wrap{
       max-width: 900px;
+      margin: 0 auto;
     }
+
+    /* Logo: centered + large */
     .logo{
-      width: 360px;
-      max-width: 80vw;
+      width: 640px;
+      max-width: 92vw;
       height: auto;
-      display:block;
-      margin-bottom: 28px;
+      display: block;
+      margin: 40px auto 28px;
     }
+
+    /* Keep links left-aligned */
+    .links{
+      text-align: left;
+    }
+
     h3{
       font-size: 14px;
       font-weight: 700;
       margin: 22px 0 8px;
     }
+
     a{
       display:block;
       color:#00f;
@@ -34,6 +45,7 @@
       margin: 6px 0;
       font-size: 14px;
     }
+
     .spacer{ height: 10px; }
   </style>
 </head>
@@ -41,26 +53,28 @@
   <div class="wrap">
     <img class="logo" src="logo.png" alt="Logo" />
 
-    <h3>MERCH</h3>
-    <a href="https://example.com">MERCH</a>
+    <div class="links">
+      <h3>MERCH</h3>
+      <a href="https://example.com">MERCH</a>
 
-    <div class="spacer"></div>
+      <div class="spacer"></div>
 
-    <h3>NEW</h3>
-    <a href="https://example.com">Track 1</a>
-    <a href="https://example.com">Track 2</a>
+      <h3>NEW</h3>
+      <a href="https://example.com">Track 1</a>
+      <a href="https://example.com">Track 2</a>
 
-    <h3>MIXTAPES</h3>
-    <a href="https://example.com">Mixtape 1</a>
-    <a href="https://example.com">Mixtape 2</a>
+      <h3>MIXTAPES</h3>
+      <a href="https://example.com">Mixtape 1</a>
+      <a href="https://example.com">Mixtape 2</a>
 
-    <h3>OTHER PLATFORMS</h3>
-    <a href="https://youtube.com">YouTube</a>
-    <a href="https://instagram.com">Instagram</a>
-    <a href="https://soundcloud.com">SoundCloud</a>
+      <h3>OTHER PLATFORMS</h3>
+      <a href="https://youtube.com">YouTube</a>
+      <a href="https://instagram.com">Instagram</a>
+      <a href="https://soundcloud.com">SoundCloud</a>
 
-    <h3>CONTACT</h3>
-    <a href="mailto:you@example.com">you@example.com</a>
+      <h3>CONTACT</h3>
+      <a href="mailto:you@example.com">you@example.com</a>
+    </div>
   </div>
 </body>
 </html>
