@@ -68,9 +68,50 @@
       outline: 2px dotted #000;
       outline-offset: 2px;
     }
+
+    /* Music control */
+    .music{
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 9999;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #000;
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .music button{
+      font: inherit;
+      font-size: 13px;
+      border: 1px solid #000;
+      background: #fff;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    .music button:active{
+      transform: translateY(1px);
+    }
+
+    .music .label{
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
+  <!-- Audio element -->
+  <audio id="bgm" src="emp_sound.mp3" loop preload="auto"></audio>
+
+  <!-- Control (user gesture enables sound reliably) -->
+  <div class="music">
+    <span class="label" id="musicLabel">BGM: OFF</span>
+    <button id="musicBtn" type="button">Play</button>
+  </div>
+
   <div id="loop">
     <div id="stage"></div>
 
@@ -106,6 +147,7 @@
 
   <script>
     (function(){
+      // ===== Infinite scroll (up/down) =====
       const loop = document.getElementById("loop");
       const stage = document.getElementById("stage");
       const tpl = document.getElementById("tpl");
@@ -153,6 +195,46 @@
 
       window.addEventListener("resize", () => {
         centerScroll();
+      });
+
+      // ===== Background music =====
+      const audio = document.getElementById("bgm");
+      const btn = document.getElementById("musicBtn");
+      const label = document.getElementById("musicLabel");
+
+      function setUI(isPlaying){
+        label.textContent = isPlaying ? "BGM: ON" : "BGM: OFF";
+        btn.textContent = isPlaying ? "Pause" : "Play";
+      }
+
+      async function toggleMusic(){
+        try{
+          if(audio.paused){
+            await audio.play();
+            setUI(true);
+          }else{
+            audio.pause();
+            setUI(false);
+          }
+        }catch(e){
+          setUI(false);
+        }
+      }
+
+      btn.addEventListener("click", () => {
+        audio.muted = false;
+        toggleMusic();
+      });
+
+      // Optional: try muted autoplay first (silent)
+      window.addEventListener("load", async () => {
+        try{
+          audio.muted = true;
+          await audio.play();
+          setUI(false);
+        }catch(e){
+          setUI(false);
+        }
       });
     })();
   </script>
